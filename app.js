@@ -8,15 +8,14 @@ import authRouter from "./router/auth.js";
 import { config } from "./config.js";
 import { Server } from "socket.io";
 import { initSocket } from "./connection/socket.js";
-import { db } from "./db/database.js";
+import { sequelize } from "./db/database.js";
 
 const app = express();
 
 const corsOption = {
   origin: config.cors.allowedOrigin,
-  optionSuccessStatus: 200,
+  optionsSuccessStatus: 200,
 };
-//200을 넣은 이유는 예전 브라우저 버전을 위해 넣은 것이다.
 
 app.use(express.json());
 app.use(helmet());
@@ -35,8 +34,8 @@ app.use((error, req, res, next) => {
   res.sendStatus(500);
 });
 
-db.getConnection();
-
-const server = app.listen(config.port);
-console.log(`Server is started... ${new Date()}`);
-initSocket(server);
+sequelize.sync().then(() => {
+  console.log(`Server is started... ${new Date()}`);
+  const server = app.listen(config.port);
+  initSocket(server);
+});
