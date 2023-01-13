@@ -7,6 +7,7 @@ import tweetsRouter from "./router/tweets.js";
 import authRouter from "./router/auth.js";
 import { config } from "./config.js";
 import { Server } from "socket.io";
+//이건 필요없으니 삭제해야
 import { initSocket } from "./connection/socket.js";
 import { sequelize } from "./db/database.js";
 
