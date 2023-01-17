@@ -7,20 +7,14 @@ import tweetsRouter from "./router/tweets.js";
 import authRouter from "./router/auth.js";
 import { config } from "./config.js";
 import { Server } from "socket.io";
-//이건 필요없으니 삭제해야
 import { initSocket } from "./connection/socket.js";
 import { sequelize } from "./db/database.js";
 
 const app = express();
 
-const corsOption = {
-  origin: config.cors.allowedOrigin,
-  optionsSuccessStatus: 200,
-};
-
 app.use(express.json());
 app.use(helmet());
-app.use(cors(corsOption));
+app.use(cors());
 app.use(morgan("tiny"));
 
 app.use("/tweets", tweetsRouter);
@@ -36,7 +30,6 @@ app.use((error, req, res, next) => {
 });
 
 sequelize.sync().then(() => {
-  console.log(`Server is started... ${new Date()}`);
-  const server = app.listen(config.port);
+  const server = app.listen(config.host.port);
   initSocket(server);
 });

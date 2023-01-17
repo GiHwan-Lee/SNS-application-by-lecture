@@ -19,9 +19,8 @@ export const config = {
     saltRounds: parseInt(required("BCRYPT_SALT_ROUNDS", 12)),
   },
 
-  port: parseInt(required("PORT", 8080)),
-  cors: {
-    allowedOrigin: required("CORS_ALLOW_ORIGIN"),
+  host: {
+    port: required("HOST_PORT", 8080),
   },
 
   db: {
@@ -29,6 +28,5 @@ export const config = {
     user: required("DB_USER"),
     database: required("DB_DATABASE"),
     password: required("DB_PASSWORD"),
-    port: required("DB_PORT"),
   },
 };
