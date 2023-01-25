@@ -3,7 +3,6 @@ import { sequelize } from "../db/database.js";
 
 const DataTypes = SQ.DataTypes;
 
-//아래 User을 export 해줬는데 tweet에서 관계를 형성하기 위해 export 해준 것이다.
 export const User = sequelize.define(
   "user",
   {
@@ -43,7 +42,5 @@ export async function findById(id) {
 }
 
 export async function createUser(user) {
-  return User.create(user).then((data) => {
-    data.dataValues.id;
-  });
+  return User.create(user).then((data) => data.dataValues.id);
 }
