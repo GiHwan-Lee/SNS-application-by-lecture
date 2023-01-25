@@ -11,6 +11,7 @@ export const User = sequelize.define(
       autoIncrement: true,
       allowNull: false,
       primaryKey: true,
+      unique: true,
     },
     username: {
       type: DataTypes.STRING(45),
@@ -42,7 +43,5 @@ export async function findById(id) {
 }
 
 export async function createUser(user) {
-  return User.create(user).then((data) => {
-    data.dataValues.id;
-  });
+  return User.create(user).then((data) => data.dataValues.id);
 }
