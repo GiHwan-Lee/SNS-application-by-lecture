@@ -13,7 +13,7 @@ import { sequelize } from "./db/database.js";
 const app = express();
 
 const corsOption = {
-  origin: "https://calebdwitter.netlify.app",
+  origin: "*",
   credentials: true,
   optionSuccessStatus: 200,
 };
