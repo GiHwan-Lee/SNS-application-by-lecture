@@ -14,7 +14,7 @@ const app = express();
 
 const corsOption = {
   origin: config.cors.allowedOrigin,
-  optionsSuccessStatus: 200,
+  optionSuccessStatus: 200,
 };
 
 app.use(express.json());
