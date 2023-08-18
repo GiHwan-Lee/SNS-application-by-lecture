@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import {} from "express-async-errors";
+import "express-async-errors";
 import * as userRepository from "../data/auth.js";
 import { config } from "../config.js";
 

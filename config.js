@@ -8,6 +8,9 @@ function required(key, defaultValue = undefined) {
   }
   return value;
 }
+//required는 실수로 환경변수에 있지도 않은 데이터를 입력했을 때를 방지하기 위해 작성한 것이다.
+//process.env[key] 값이 없다면 default로 설정한 undefined가 출력된다.
+//혹은 null이라면 Error를 던져준다.
 
 export const config = {
   jwt: {

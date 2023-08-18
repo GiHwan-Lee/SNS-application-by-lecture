@@ -66,6 +66,7 @@ export async function create(text, userId) {
   return Tweet.create({ text, userId }) //
     .then((data) => getById(data.dataValues.id));
 }
+//여기서도 controller에서 보면 req.userId를 매개변수에 넣어줬고 이를 받아서 DB에 userId와 함께 트윗 정보를 저장한다.
 
 export async function update(id, text) {
   return Tweet.findByPk(id, INCLUDE_USER).then((tweet) => {
@@ -79,3 +80,5 @@ export async function remove(id) {
     tweet.destroy();
   });
 }
+
+//create 함수 외에 update나 remove에는 userId가 없는 이유는 굳이 이를 통해 트윗글을 식별하기 보다는 기본키인 id가 있기 때문에 id를 활용하는게 낫기 때문이다.
