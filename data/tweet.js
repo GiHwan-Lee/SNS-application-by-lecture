@@ -5,6 +5,7 @@ import { User } from "./auth.js";
 const DataTypes = SQ.DataTypes;
 const Sequelize = SQ.Sequelize;
 
+// tweet 데이터 모델을 정의합니다.
 const Tweet = sequelize.define("tweet", {
   id: {
     type: DataTypes.INTEGER,
@@ -18,8 +19,10 @@ const Tweet = sequelize.define("tweet", {
   },
 });
 
+// User 모델(테이블)과 Tweet 모델(테이블)의 관계를 설정합니다. 각 트윗은 한 사용자에게 속합니다.
 Tweet.belongsTo(User);
 
+// 사용자 정보를 포함한 게시글 조회를 위한 설정입니다.
 const INCLUDE_USER = {
   attributes: [
     "id",
@@ -36,14 +39,17 @@ const INCLUDE_USER = {
   },
 };
 
+// 게시글을 최신순으로 정렬하기 위한 설정입니다.
 const ORDER_DESC = {
   order: [["createdAt", "DESC"]],
 };
 
+// 모든 게시글을 조회한 뒤 데이터를 컨트롤러에게 전달합니다.
 export async function getAll() {
   return Tweet.findAll({ ...INCLUDE_USER, ...ORDER_DESC });
 }
 
+// 주어진 사용자 이름으로 게시글을 조회한 뒤 데이터를 컨트롤러에게 전달합니다.
 export async function getAllByUsername(username) {
   return Tweet.findAll({
     ...INCLUDE_USER,
@@ -55,6 +61,7 @@ export async function getAllByUsername(username) {
   });
 }
 
+// 주어진 ID로 게시글을 조회한 뒤 데이터를 컨트롤러에게 전달합니다.
 export async function getById(id) {
   return Tweet.findOne({
     where: { id },
@@ -62,12 +69,13 @@ export async function getById(id) {
   });
 }
 
+// 새로운 게시글을 생성한 뒤 해당 게시글을 반환하여 컨트롤러에게 전달합니다.
 export async function create(text, userId) {
   return Tweet.create({ text, userId }) //
     .then((data) => getById(data.dataValues.id));
 }
-//여기서도 controller에서 보면 req.userId를 매개변수에 넣어줬고 이를 받아서 DB에 userId와 함께 트윗 정보를 저장한다.
 
+// 주어진 ID의 게시글 내용을 업데이트합니다.
 export async function update(id, text) {
   return Tweet.findByPk(id, INCLUDE_USER).then((tweet) => {
     tweet.text = text;
@@ -75,10 +83,9 @@ export async function update(id, text) {
   });
 }
 
+// 주어진 ID의 게시글을 삭제합니다.
 export async function remove(id) {
   return Tweet.findByPk(id).then((tweet) => {
     tweet.destroy();
   });
 }
-
-//create 함수 외에 update나 remove에는 userId가 없는 이유는 굳이 이를 통해 트윗글을 식별하기 보다는 기본키인 id가 있기 때문에 id를 활용하는게 낫기 때문이다.
